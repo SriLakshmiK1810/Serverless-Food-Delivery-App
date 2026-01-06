@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>FoodieHub</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+<!-- ================= TOP SEARCH BAR ================= -->
+<div class="top-bar">
+  <div class="location-search">
+    <div class="location">
+      📍 <span>Nagpur Junction, Nagpur</span> ▼
+    </div>
+    <input
+      class="search-input"
+      placeholder="Search for restaurant, cuisine or a dish"
+    />
+  </div>
+
+  <div class="profile" onclick="openAuthModal()">
+    👤 <span id="authArea">Login / Sign up</span>
+  </div>
+</div>
+
+<!-- ================= LOGO ================= -->
+<div class="logo-header">
+  <video class="app-logo" autoplay loop muted playsinline>
+    <source src="logo.mp4" type="video/mp4" />
+  </video>
+</div>
+
+<!-- ================= TABS ================= -->
+<div class="tabs">
+  <div class="tab active" onclick="showDining()">🍽 Dining Out</div>
+  <div class="tab" onclick="showDelivery()">🚴 Delivery</div>
+  <div class="tab">🍸 Nightlife</div>
+</div>
+
+
+<!-- ================= LOGIN MODAL ================= -->
+<div id="authModal" class="modal">
+  <div class="modal-content">
+    <h3>Login / Sign Up</h3>
+    <input id="userInput" placeholder="Enter User ID / Name" />
+    <button onclick="loginUser()">Continue</button>
+    <br /><br />
+    <button class="secondary" onclick="closeAuthModal()">Cancel</button>
+  </div>
+</div>
+
+<!-- ================= DINING SECTION ================= -->
+<div id="dining-section">
+
+<!-- ================= COLLECTIONS ================= -->
+<div class="collections">
+
+  <div class="collections-header">
+    <h2>Collections</h2>
+    <span class="view-all">All collections in Nagpur ➜</span>
+  </div>
+
+  <p class="collections-desc">
+    Explore curated lists of top restaurants, cafes, pubs, and bars in Nagpur
+  </p>
+
+  <div class="collections-grid">
+    <div class="collection-card">
+      <img src="https://images.unsplash.com/photo-1504754524776-8f4f37790ca0" alt="Great Cafes">
+      <div class="collection-text">Great Cafes<br><span>9 Places</span></div>
+    </div>
+
+    <div class="collection-card">
+      <img src="https://images.unsplash.com/photo-1517248135467-4c7edcad34c4" alt="Best Pubs">
+      <div class="collection-text">Best Pubs & Bars<br><span>16 Places</span></div>
+    </div>
+
+    <div class="collection-card">
+      <img src="https://images.unsplash.com/photo-1528605248644-14dd04022da1" alt="Sky High Sips">
+      <div class="collection-text">Sky High Sips<br><span>13 Places</span></div>
+    </div>
+
+    <div class="collection-card">
+      <img src="https://images.unsplash.com/photo-1553621042-f6e147245754" alt="Pan Asian">
+      <div class="collection-text">Pan-Asian<br><span>14 Places</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- ================= OFFER BANNER ================= -->
+<div class="offer-banner">
+  <div class="offer-content">
+    <h2>Get up to <strong>50% OFF</strong></h2>
+    <p>on your dining bills</p>
+    <button>Check out all the restaurants</button>
+  </div>
+</div>
+
+<!-- ================= FILTERS ================= -->
+<div class="filters">
+  <span>Filters</span>
+  <span>Offers</span>
+  <span>Rating 4.5+</span>
+  <span>Pet Friendly</span>
+  <span>Outdoor Seating</span>
+  <span>Open Now</span>
+</div>
+
+<!-- ================= RESTAURANTS IN NAGPUR ================= -->
+<div class="restaurants-list">
+  <h2>Restaurants in Nagpur</h2>
+
+  <div class="card-grid">
+    <div class="card">
+      <img src="https://images.unsplash.com/photo-1552566626-52f8b828add9" alt="ARK Indian Kitchen">
+      <div class="card-content">
+        <h3>ARK Indian Kitchen</h3>
+        <p>North Indian • Mughlai</p>
+        <span class="rating">4.3 ⭐</span>
+      </div>
+    </div>
+
+    <div class="card">
+      <img src="https://images.unsplash.com/photo-1546069901-ba9599a7e63c" alt="Little Italy">
+      <div class="card-content">
+        <h3>Little Italy</h3>
+        <p>Italian • Pizza</p>
+        <span class="rating">4.4 ⭐</span>
+      </div>
+    </div>
+
+    <div class="card">
+      <img src="https://images.unsplash.com/photo-1555396273-367ea4eb4db5" alt="The Salt">
+      <div class="card-content">
+        <h3>The Salt – All Day Brew</h3>
+        <p>North Indian • Mexican</p>
+        <span class="rating">4.4 ⭐</span>
+      </div>
+    </div>
+
+    <div class="card">
+      <img src="https://images.unsplash.com/photo-1528605248644-14dd04022da1" alt="Barbeque Nation">
+      <div class="card-content">
+        <h3>Barbeque Nation</h3>
+        <p>North Indian • Buffet</p>
+        <span class="rating">4.5 ⭐</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ================= RESTAURANTS NEAR YOU ================= -->
+<div class="container">
+  <div class="section-title">Restaurants near you</div>
+
+  <div class="card-grid">
+    <div class="card">
+      <img src="https://images.unsplash.com/photo-1552566626-52f8b828add9" alt="Greenhouse Barbecue">
+      <div class="card-content">
+        <h3>Greenhouse Barbecue</h3>
+        <p>North Indian • BBQ</p>
+        <button>Order Online</button>
+      </div>
+    </div>
+
+    <div class="card">
+      <img src="https://images.unsplash.com/photo-1600891964599-f61ba0e24092" alt="KFC">
+      <div class="card-content">
+        <h3>KFC</h3>
+        <p>Fast Food</p>
+        <button>Order Online</button>
+      </div>
+    </div>
+
+    <div class="card">
+      <img src="https://images.unsplash.com/photo-1540189549336-e6e99c3679fe" alt="Sangeetha Veg">
+      <div class="card-content">
+        <h3>Sangeetha Veg</h3>
+        <p>South Indian</p>
+        <button>Order Online</button>
+      </div>
+    </div>
+
+    <div class="card">
+      <img src="https://images.unsplash.com/photo-1555396273-367ea4eb4db5" alt="Dominos">
+      <div class="card-content">
+        <h3>Domino's Pizza</h3>
+        <p>Pizza • Fast Food</p>
+        <button>Order Online</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+</div> <!-- END dining-section -->
+
+<!-- ================= DELIVERY SECTION ================= -->
+<div id="delivery-section" style="display:none">
+
+  <div class="container">
+    <h2>Inspiration for your first order</h2>
+
+    <div class="circle-grid">
+      <div class="circle-card">
+        <img src="https://images.unsplash.com/photo-1563379926898-05f4575a45d8">
+        <p>Biryani</p>
+      </div>
+      <div class="circle-card">
+        <img src="https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?auto=format&fit=crop&w=400&q=80">
+
+        <p>Pizza</p>
+      </div>
+      <div class="circle-card">
+        <img src="https://images.unsplash.com/photo-1589302168068-964664d93dc0?auto=format&fit=crop&w=400&q=80">
+
+        <p>Veg Meal</p>
+      </div>
+      <div class="circle-card">
+        <img src="https://images.unsplash.com/photo-1504674900247-0877df9cc836">
+        <p>Chicken</p>
+      </div>
+      <div class="circle-card">
+        <img src="https://images.unsplash.com/photo-1550547660-d9450f859349">
+        <p>Burger</p>
+      </div>
+    </div>
+
+    <h2 style="margin-top:40px">Top brands for you</h2>
+
+    <div class="circle-grid">
+      <div class="brand-card">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/7/74/Dominos_pizza_logo.svg">
+        <p>Domino's</p>
+      </div>
+      <div class="brand-card">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/b/bf/KFC_logo.svg">
+        <p>KFC</p>
+      </div>
+      <div class="brand-card">
+        <img src="https://1000logos.net/wp-content/uploads/2017/03/Burger-King-Logo.png">
+
+        <p>Burger King</p>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+
+<!-- ================= EXPLORE OPTIONS ================= -->
+<div class="explore">
+  <h2>Explore options near me</h2>
+
+  <div class="explore-item">Popular cuisines near me <span>⌄</span></div>
+  <div class="explore-item">Popular restaurant types near me <span>⌄</span></div>
+  <div class="explore-item">Explore Dining Cities <span>⌄</span></div>
+  <div class="explore-item">Restaurants in Popular Locations <span>⌄</span></div>
+  <div class="explore-item">Discover more fun <span>⌄</span></div>
+</div>
+
+<!-- ================= FOOTER ================= -->
+<footer class="footer">
+  <div class="footer-top">
+    <h2 class="footer-logo">YumDrop</h2>
+
+    <div class="footer-select">
+      <select>
+        <option>India</option>
+        <option>USA</option>
+      </select>
+
+      <select>
+        <option>English</option>
+        <option>Tamil</option>
+      </select>
+    </div>
+  </div>
+
+  <div class="footer-links">
+    <div>
+      <h4>ABOUT YumDrop</h4>
+      <p>Who We Are</p>
+      <p>Blog</p>
+      <p>Work With Us</p>
+      <p>Contact Us</p>
+    </div>
+
+    <div>
+      <h4>FOR RESTAURANTS</h4>
+      <p>Partner With Us</p>
+      <p>Apps For You</p>
+    </div>
+
+    <div>
+      <h4>LEARN MORE</h4>
+      <p>Privacy</p>
+      <p>Security</p>
+      <p>Terms</p>
+    </div>
+
+    <div>
+      <h4>SOCIAL LINKS</h4>
+      <div class="social-icons">🌐 📘 📸 🐦</div>
+    </div>
+  </div>
+
+  <p class="footer-bottom">© 2026 YumDrop. All rights reserved.</p>
+</footer>
+
+<script src="script.js"></script>
+</body>
+</html>

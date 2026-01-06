@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Cart</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header>
+  <span>Your Cart</span>
+  <span id="authArea"></span>
+</header>
+
+<div class="container">
+  <ul id="cartList"></ul>
+
+  <p>Item Total: ₹<span id="itemTotal">0</span></p>
+  <p>Delivery Fee: ₹40</p>
+  <p>GST (5%): ₹<span id="gst">0</span></p>
+
+  <h3>Grand Total: ₹<span id="grandTotal">0</span></h3>
+
+  <button onclick="confirmOrder()">Confirm Order</button>
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>

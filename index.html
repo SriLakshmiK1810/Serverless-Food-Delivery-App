@@ -35,7 +35,7 @@
 <div class="tabs">
   <div class="tab active" onclick="showDining()">🍽 Dining Out</div>
   <div class="tab" onclick="showDelivery()">🚴 Delivery</div>
-  <div class="tab">🍸 Nightlife</div>
+  
 </div>
 
 
@@ -203,28 +203,31 @@
     <h2>Inspiration for your first order</h2>
 
     <div class="circle-grid">
-      <div class="circle-card">
-        <img src="https://images.unsplash.com/photo-1563379926898-05f4575a45d8">
-        <p>Biryani</p>
-      </div>
-      <div class="circle-card">
-        <img src="https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?auto=format&fit=crop&w=400&q=80">
+      <div class="circle-card" onclick="showDish('biryani')">
+  <img src="https://images.unsplash.com/photo-1563379926898-05f4575a45d8">
+  <p>Biryani</p>
+</div>
 
-        <p>Pizza</p>
-      </div>
-      <div class="circle-card">
-        <img src="https://images.unsplash.com/photo-1589302168068-964664d93dc0?auto=format&fit=crop&w=400&q=80">
+<div class="circle-card" onclick="showDish('pizza')">
+  <img src="https://images.unsplash.com/photo-1565299624946-b28f40a0ae38">
+  <p>Pizza</p>
+</div>
 
-        <p>Veg Meal</p>
-      </div>
-      <div class="circle-card">
-        <img src="https://images.unsplash.com/photo-1504674900247-0877df9cc836">
-        <p>Chicken</p>
-      </div>
-      <div class="circle-card">
-        <img src="https://images.unsplash.com/photo-1550547660-d9450f859349">
-        <p>Burger</p>
-      </div>
+<div class="circle-card" onclick="showDish('vegmeal')">
+  <img src="https://images.unsplash.com/photo-1589302168068-964664d93dc0">
+  <p>Veg Meal</p>
+</div>
+
+<div class="circle-card" onclick="showDish('chicken')">
+  <img src="https://images.unsplash.com/photo-1504674900247-0877df9cc836">
+  <p>Chicken</p>
+</div>
+
+<div class="circle-card" onclick="showDish('burger')">
+  <img src="https://images.unsplash.com/photo-1550547660-d9450f859349">
+  <p>Burger</p>
+</div>
+
     </div>
 
     <h2 style="margin-top:40px">Top brands for you</h2>
@@ -234,19 +237,28 @@
         <img src="https://upload.wikimedia.org/wikipedia/commons/7/74/Dominos_pizza_logo.svg">
         <p>Domino's</p>
       </div>
+
       <div class="brand-card">
         <img src="https://upload.wikimedia.org/wikipedia/commons/b/bf/KFC_logo.svg">
         <p>KFC</p>
       </div>
-      <div class="brand-card">
-        <img src="https://1000logos.net/wp-content/uploads/2017/03/Burger-King-Logo.png">
 
+      <div class="brand-card">
+        <img src="burgerking.jpg">
         <p>Burger King</p>
       </div>
     </div>
 
   </div>
 </div>
+
+<div id="dish-section" style="display:none">
+  <div class="container">
+    <h2 id="dish-title"></h2>
+    <div class="card-grid" id="dish-results"></div>
+  </div>
+</div>
+
 
 
 <!-- ================= EXPLORE OPTIONS ================= -->

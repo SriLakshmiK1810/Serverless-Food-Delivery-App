@@ -1,3 +1,7 @@
+const RESTAURANTS_API = "https://t20kw4redi.execute-api.ap-south-1.amazonaws.com/dev/restaurants";
+const ORDER_API       = "https://t20kw4redi.execute-api.ap-south-1.amazonaws.com/dev/order";
+const TRACK_API       = "https://t20kw4redi.execute-api.ap-south-1.amazonaws.com/dev/track";
+
 /* ---------- AUTH ---------- */
 function isLoggedIn() {
   return localStorage.getItem("userId") !== null;
@@ -39,9 +43,13 @@ function showDining() {
 
 function showDelivery() {
   document.getElementById("dining-section").style.display = "none";
+  document.getElementById("dish-section").style.display = "none";
+  document.getElementById("restaurant-page").style.display = "none";
   document.getElementById("delivery-section").style.display = "block";
+
   setActiveTab(1);
 }
+
 
 function setActiveTab(index) {
   const tabs = document.querySelectorAll(".tab");
@@ -215,23 +223,25 @@ const dishData = {
     }
   ]
 };
+
 /* ---------- DISH VIEW ---------- */
 function showDish(dish) {
-  // hide dining & delivery
-  document.getElementById("dining-section").style.display = "none";
-  document.getElementById("delivery-section").style.display = "none";
+  const dishSection = document.getElementById("dish-section");
+  const delivery = document.getElementById("delivery-section");
+  const dining = document.getElementById("dining-section");
 
-  // show dish results
-  document.getElementById("dish-section").style.display = "block";
+  delivery.style.display = "none";
+  dining.style.display = "none";
+  dishSection.style.display = "block";
 
-  // set title
-  document.getElementById("dish-title").innerText =
+  const title = document.getElementById("dish-title");
+  const results = document.getElementById("dish-results");
+
+  title.innerText =
     dish.charAt(0).toUpperCase() + dish.slice(1) + " Delivery in Nagpur";
 
-  const results = document.getElementById("dish-results");
   results.innerHTML = "";
 
-  // safety check
   if (!dishData[dish]) {
     results.innerHTML = "<p>No restaurants found</p>";
     return;
@@ -239,7 +249,8 @@ function showDish(dish) {
 
   dishData[dish].forEach(item => {
     results.innerHTML += `
-      <div class="card">
+      <div class="card" onclick="openRestaurant('${item.name}')">
+
         <img src="${item.img}">
         <div class="card-content">
           <h3>${item.name}</h3>
@@ -250,6 +261,112 @@ function showDish(dish) {
     `;
   });
 }
+function openRestaurant(restaurantName) {
+  document.getElementById("delivery-section").style.display = "none";
+  document.getElementById("dish-section").style.display = "none";
+  document.getElementById("restaurant-page").style.display = "block";
+
+  document.getElementById("res-name").innerText = restaurantName;
+
+  const list = document.getElementById("menu-items");
+  list.innerHTML = "";
+
+  const menu = restaurantMenus[restaurantName];
+  if (!menu) {
+    list.innerHTML = "<p>No menu available</p>";
+    return;
+  }
+
+  menu.forEach((item, index) => {
+    const key = `${restaurantName}-${index}`; // UNIQUE KEY
+
+    list.innerHTML += `
+      <div class="food-item">
+        <div class="food-info">
+          <h4>${item.name}</h4>
+          <p>₹${item.price}</p>
+        </div>
+
+        <div class="food-right" id="action-${key}">
+          <button class="add-btn" onclick="addItem('${key}', '${item.name}', ${item.price})">
+            ADD
+          </button>
+        </div>
+      </div>
+    `;
+  });
+}
+function addItem(key, name, price) {
+  if (!isLoggedIn()) {
+    openAuthModal();
+    return;
+  }
+
+  cart[key] = { name, price, qty: 1 };
+  localStorage.setItem("cart", JSON.stringify(cart));
+
+  document.getElementById(`action-${key}`).innerHTML = qtyUI(key);
+  updateCartBar();
+}
+
+function increase(key) {
+  cart[key].qty++;
+  localStorage.setItem("cart", JSON.stringify(cart));
+
+  updateQty(key);
+  updateCartBar();
+}
+
+
+function decrease(key) {
+  cart[key].qty--;
+
+  if (cart[key].qty === 0) {
+    delete cart[key];
+
+    document.getElementById(`action-${key}`).innerHTML = `
+      <button class="add-btn"
+        onclick="addItem(
+          '${key}',
+          '${cart[key]?.name || ""}',
+          ${cart[key]?.price || 0}
+        )">
+        ADD
+      </button>
+    `;
+  } else {
+    updateQty(key);
+  }
+
+  localStorage.setItem("cart", JSON.stringify(cart));
+  updateCartBar();
+}
+
+
+function updateQty(key) {
+  document.getElementById(`count-${key}`).innerText = cart[key].qty;
+}
+
+function qtyUI(key) {
+  return `
+    <div class="qty-box">
+      <button onclick="decrease('${key}')">−</button>
+      <span id="count-${key}">1</span>
+      <button onclick="increase('${key}')">+</button>
+    </div>
+  `;
+}
+
+function getTotalQty() {
+  return Object.values(cart)
+    .reduce((sum, item) => sum + item.qty, 0);
+}
+
+
+ 
+
+ 
+
 
 
 /* ---------- MENU DATA ---------- */
@@ -291,6 +408,24 @@ function addToCart(name, price) {
   localStorage.setItem("cart", JSON.stringify(cart));
   alert(`${name} added (${cart[name].qty})`);
 }
+function updateCartBar() {
+  const cartBar = document.getElementById("cart-bar");
+  const cartCount = document.getElementById("cart-count");
+
+  let totalQty = 0;
+
+  Object.values(cart).forEach(item => {
+    totalQty += item.qty;
+  });
+
+  if (totalQty > 0) {
+    cartBar.style.display = "flex";
+    cartCount.innerText = totalQty;
+  } else {
+    cartBar.style.display = "none";
+  }
+}
+
 
 function goToCart() {
   location.href = "cart.html";
@@ -340,10 +475,360 @@ function confirmOrder() {
   location.href = "status.html";
 }
 
+localStorage.removeItem("cart");
+
+
+
+/* ---------- RESTAURANT MENU DATA ---------- */
+const restaurantMenus = {
+
+  /* ================= BIRYANI ================= */
+
+  "Hyderabadi Biryani Centre": [
+    { name: "Chicken Dum Biryani", price: 280 },
+    { name: "Mutton Dum Biryani", price: 360 },
+    { name: "Egg Biryani", price: 220 },
+    { name: "Chicken 65", price: 190 },
+    { name: "Double Masala Biryani", price: 320 },
+    { name: "Chicken Fry Biryani", price: 300 },
+    { name: "Mirchi Ka Salan", price: 60 },
+    { name: "Raita", price: 40 },
+    { name: "Chicken Lollipop", price: 210 },
+    { name: "Family Pack", price: 650 }
+  ],
+
+  "Bikkgane Biryani": [
+    { name: "Signature Chicken Biryani", price: 299 },
+    { name: "Boneless Chicken Biryani", price: 329 },
+    { name: "Mutton Biryani", price: 379 },
+    { name: "Egg Biryani", price: 229 },
+    { name: "Chicken Fry", price: 249 },
+    { name: "Pepper Chicken", price: 259 },
+    { name: "Chicken 65", price: 199 },
+    { name: "Raita", price: 49 },
+    { name: "Gulab Jamun", price: 89 },
+    { name: "Family Combo", price: 699 }
+  ],
+
+  "Paradise Biryani": [
+    { name: "Classic Chicken Biryani", price: 289 },
+    { name: "Mutton Biryani", price: 369 },
+    { name: "Egg Biryani", price: 219 },
+    { name: "Chicken Kebab", price: 239 },
+    { name: "Chicken Fry Piece Biryani", price: 329 },
+    { name: "Paneer Biryani", price: 259 },
+    { name: "Curd Raita", price: 45 },
+    { name: "Sweet Double Ka Meetha", price: 99 },
+    { name: "Chicken Tikka", price: 279 },
+    { name: "Jumbo Pack", price: 799 }
+  ],
+
+  "Behrouz Biryani": [
+    { name: "Royal Chicken Biryani", price: 349 },
+    { name: "Lucknowi Mutton Biryani", price: 429 },
+    { name: "Dum Gosht Biryani", price: 459 },
+    { name: "Paneer Subz Biryani", price: 299 },
+    { name: "Chicken Kebab Platter", price: 329 },
+    { name: "Veg Galouti Kebab", price: 249 },
+    { name: "Raita", price: 49 },
+    { name: "Phirni", price: 99 },
+    { name: "Murgh Afghani", price: 289 },
+    { name: "Family Feast", price: 899 }
+  ],
+
+  "Meghana Foods": [
+    { name: "Chicken Biryani", price: 299 },
+    { name: "Boneless Chicken Biryani", price: 349 },
+    { name: "Mutton Biryani", price: 399 },
+    { name: "Chicken Fry", price: 259 },
+    { name: "Chicken 65", price: 239 },
+    { name: "Pepper Chicken", price: 279 },
+    { name: "Egg Curry", price: 199 },
+    { name: "Curd Rice", price: 129 },
+    { name: "Raita", price: 49 },
+    { name: "Family Pack", price: 749 }
+  ],
+
+  /* ================= PIZZA ================= */
+
+  "Domino's Pizza": [
+    { name: "Margherita", price: 199 },
+    { name: "Farmhouse", price: 299 },
+    { name: "Peppy Paneer", price: 329 },
+    { name: "Veg Extravaganza", price: 399 },
+    { name: "Chicken Pepperoni", price: 449 },
+    { name: "Garlic Bread", price: 149 },
+    { name: "Stuffed Garlic Bread", price: 179 },
+    { name: "Choco Lava Cake", price: 109 },
+    { name: "Cheesy Dip", price: 39 },
+    { name: "Taco Mexicana", price: 199 }
+  ],
+
+  "Pizza Hut": [
+    { name: "Veggie Supreme", price: 319 },
+    { name: "Chicken Supreme", price: 399 },
+    { name: "Cheese Lovers", price: 299 },
+    { name: "Pepperoni Pizza", price: 429 },
+    { name: "Spicy Paneer", price: 349 },
+    { name: "Garlic Breadsticks", price: 159 },
+    { name: "Chicken Wings", price: 249 },
+    { name: "Pasta Italiano", price: 219 },
+    { name: "Brownie", price: 129 },
+    { name: "Cheese Garlic Bread", price: 189 }
+  ],
+
+  "La Pino’z Pizza": [
+    { name: "Cheese Burst Pizza", price: 279 },
+    { name: "Mexican Green Wave", price: 319 },
+    { name: "BBQ Chicken Pizza", price: 359 },
+    { name: "Paneer Tikka Pizza", price: 339 },
+    { name: "Peri Peri Fries", price: 149 },
+    { name: "Garlic Bread", price: 129 },
+    { name: "Cheesy Sticks", price: 159 },
+    { name: "Cold Drink", price: 49 },
+    { name: "Brownie", price: 99 },
+    { name: "Combo Meal", price: 499 }
+  ],
+
+  "Oven Story Pizza": [
+    { name: "Classic Veg Pizza", price: 299 },
+    { name: "Chicken Tikka Pizza", price: 369 },
+    { name: "Paneer Makhani Pizza", price: 349 },
+    { name: "Cheese Overload", price: 329 },
+    { name: "Garlic Bread", price: 159 },
+    { name: "Chicken Wings", price: 269 },
+    { name: "Pasta Bowl", price: 239 },
+    { name: "Chocolate Mousse", price: 119 },
+    { name: "Cold Drink", price: 49 },
+    { name: "Family Combo", price: 699 }
+  ],
+
+  "MOJO Pizza": [
+    { name: "2x Toppings Pizza", price: 299 },
+    { name: "Paneer & Capsicum Pizza", price: 319 },
+    { name: "BBQ Chicken Pizza", price: 359 },
+    { name: "Cheesy Garlic Bread", price: 169 },
+    { name: "Peri Peri Fries", price: 149 },
+    { name: "Chicken Nuggets", price: 199 },
+    { name: "Chocolate Brownie", price: 119 },
+    { name: "Cold Drink", price: 49 },
+    { name: "Combo Meal", price: 549 },
+    { name: "Family Box", price: 799 }
+  ],
+
+  /* ================= VEG MEAL ================= */
+
+  "Sangeetha Veg": [
+    { name: "Mini Tiffin", price: 180 },
+    { name: "South Indian Meals", price: 220 },
+    { name: "Masala Dosa", price: 120 },
+    { name: "Ghee Roast", price: 150 },
+    { name: "Idli (2 pcs)", price: 70 },
+    { name: "Vada (2 pcs)", price: 80 },
+    { name: "Curd Rice", price: 110 },
+    { name: "Poori Masala", price: 140 },
+    { name: "Filter Coffee", price: 40 },
+    { name: "Sweet Pongal", price: 90 }
+  ],
+
+  "A2B Veg Restaurant": [
+    { name: "Veg Meals", price: 230 },
+    { name: "Masala Dosa", price: 130 },
+    { name: "Rava Dosa", price: 150 },
+    { name: "Idli", price: 75 },
+    { name: "Vada", price: 85 },
+    { name: "Curd Rice", price: 120 },
+    { name: "Tomato Rice", price: 140 },
+    { name: "Pongal", price: 110 },
+    { name: "Coffee", price: 45 },
+    { name: "Kesari", price: 90 }
+  ],
+
+  "Saravana Bhavan": [
+    { name: "Mini Tiffin", price: 190 },
+    { name: "South Indian Meals", price: 240 },
+    { name: "Masala Dosa", price: 130 },
+    { name: "Ghee Roast", price: 160 },
+    { name: "Idli", price: 75 },
+    { name: "Vada", price: 85 },
+    { name: "Curd Rice", price: 120 },
+    { name: "Poori", price: 150 },
+    { name: "Coffee", price: 45 },
+    { name: "Sweet", price: 90 }
+  ],
+
+  "Murugan Idli Shop": [
+    { name: "Idli (4 pcs)", price: 120 },
+    { name: "Podi Idli", price: 140 },
+    { name: "Ghee Pongal", price: 150 },
+    { name: "Vada", price: 90 },
+    { name: "Masala Dosa", price: 140 },
+    { name: "Curd Rice", price: 120 },
+    { name: "Sambar Rice", price: 140 },
+    { name: "Coffee", price: 50 },
+    { name: "Sweet Pongal", price: 100 },
+    { name: "Combo Meal", price: 299 }
+  ],
+
+  "Annapoorna Veg": [
+    { name: "Veg Meals", price: 210 },
+    { name: "Masala Dosa", price: 125 },
+    { name: "Idli", price: 70 },
+    { name: "Vada", price: 80 },
+    { name: "Poori Masala", price: 135 },
+    { name: "Curd Rice", price: 110 },
+    { name: "Lemon Rice", price: 120 },
+    { name: "Coffee", price: 40 },
+    { name: "Kesari", price: 85 },
+    { name: "Combo", price: 299 }
+  ],
+
+  /* ================= CHICKEN ================= */
+
+  "KFC": [
+    { name: "Zinger Burger", price: 199 },
+    { name: "Hot & Crispy Chicken", price: 179 },
+    { name: "Chicken Popcorn", price: 149 },
+    { name: "Peri Peri Strips", price: 199 },
+    { name: "Chicken Bucket (6 pcs)", price: 499 },
+    { name: "Smoky Red Chicken", price: 219 },
+    { name: "Rice Bowl", price: 179 },
+    { name: "French Fries", price: 99 },
+    { name: "Pepsi", price: 49 },
+    { name: "Chocolate Lava Cake", price: 109 }
+  ],
+
+  "Al Baik": [
+    { name: "Fried Chicken", price: 249 },
+    { name: "Chicken Nuggets", price: 199 },
+    { name: "Chicken Burger", price: 179 },
+    { name: "Chicken Wrap", price: 169 },
+    { name: "French Fries", price: 99 },
+    { name: "Chicken Popcorn", price: 149 },
+    { name: "Coleslaw", price: 79 },
+    { name: "Cold Drink", price: 49 },
+    { name: "Combo Meal", price: 399 },
+    { name: "Family Bucket", price: 699 }
+  ],
+
+  "Meat & Eat": [
+    { name: "Grilled Chicken Burger", price: 199 },
+    { name: "Chicken Wrap", price: 169 },
+    { name: "Fried Chicken", price: 249 },
+    { name: "Chicken Wings", price: 229 },
+    { name: "Chicken Popcorn", price: 149 },
+    { name: "French Fries", price: 99 },
+    { name: "Cold Drink", price: 49 },
+    { name: "Brownie", price: 119 },
+    { name: "Combo Meal", price: 399 },
+    { name: "Family Pack", price: 699 }
+  ],
+
+  "Fried Nation": [
+    { name: "Fried Chicken", price: 239 },
+    { name: "Chicken Burger", price: 189 },
+    { name: "Chicken Wings", price: 219 },
+    { name: "Chicken Popcorn", price: 159 },
+    { name: "French Fries", price: 99 },
+    { name: "Onion Rings", price: 99 },
+    { name: "Cold Drink", price: 49 },
+    { name: "Brownie", price: 109 },
+    { name: "Combo", price: 399 },
+    { name: "Family Bucket", price: 699 }
+  ],
+
+  "Grill House": [
+    { name: "Grilled Chicken", price: 299 },
+    { name: "Chicken Shawarma", price: 179 },
+    { name: "Chicken Burger", price: 189 },
+    { name: "BBQ Chicken Wings", price: 239 },
+    { name: "Chicken Wrap", price: 169 },
+    { name: "French Fries", price: 99 },
+    { name: "Garlic Sauce", price: 39 },
+    { name: "Cold Drink", price: 49 },
+    { name: "Combo Meal", price: 399 },
+    { name: "Family Combo", price: 699 }
+  ],
+
+  /* ================= BURGER ================= */
+
+  "Burger King": [
+    { name: "Whopper", price: 199 },
+    { name: "Veg Whopper", price: 179 },
+    { name: "Chicken Whopper", price: 219 },
+    { name: "Crispy Veg Burger", price: 99 },
+    { name: "Chicken Crispy Burger", price: 129 },
+    { name: "French Fries", price: 89 },
+    { name: "Onion Rings", price: 99 },
+    { name: "Chicken Nuggets", price: 149 },
+    { name: "Cold Coffee", price: 129 },
+    { name: "Brownie Sundae", price: 149 }
+  ],
+
+  "McDonald's": [
+    { name: "McAloo Tikki", price: 99 },
+    { name: "McChicken", price: 149 },
+    { name: "McVeggie", price: 139 },
+    { name: "Chicken Nuggets", price: 149 },
+    { name: "French Fries", price: 99 },
+    { name: "Veg Pizza Puff", price: 69 },
+    { name: "Coke", price: 49 },
+    { name: "McFlurry", price: 119 },
+    { name: "Combo Meal", price: 299 },
+    { name: "Happy Meal", price: 249 }
+  ],
+
+  "Wendy's": [
+    { name: "Classic Chicken Burger", price: 199 },
+    { name: "Veg Burger", price: 179 },
+    { name: "Cheese Burger", price: 219 },
+    { name: "French Fries", price: 99 },
+    { name: "Chicken Nuggets", price: 149 },
+    { name: "Cold Coffee", price: 129 },
+    { name: "Brownie", price: 119 },
+    { name: "Combo Meal", price: 349 },
+    { name: "Family Combo", price: 699 },
+    { name: "Cold Drink", price: 49 }
+  ],
+
+  "Burger Singh": [
+    { name: "Amritsari Murgh Burger", price: 199 },
+    { name: "Paneer Burger", price: 179 },
+    { name: "Chicken Keema Burger", price: 219 },
+    { name: "French Fries", price: 99 },
+    { name: "Cheese Fries", price: 129 },
+    { name: "Chicken Nuggets", price: 149 },
+    { name: "Cold Coffee", price: 129 },
+    { name: "Brownie", price: 119 },
+    { name: "Combo Meal", price: 399 },
+    { name: "Family Pack", price: 699 }
+  ],
+
+  "Louis Burger": [
+    { name: "Classic Smash Burger", price: 229 },
+    { name: "Cheese Burger", price: 249 },
+    { name: "Chicken Burger", price: 259 },
+    { name: "Loaded Fries", price: 149 },
+    { name: "Onion Rings", price: 119 },
+    { name: "Chicken Nuggets", price: 159 },
+    { name: "Cold Drink", price: 49 },
+    { name: "Brownie", price: 129 },
+    { name: "Combo Meal", price: 449 },
+    { name: "Family Combo", price: 799 }
+  ]
+};
+function goToCart() {
+  window.location.href = "cart.html";
+}
+
+
+
+
 /* ---------- INIT ---------- */
 window.onload = () => {
   updateHeader();
-  showDining();   // ✅ ensures correct default view
+  showDining();
   loadMenu();
   loadCart();
+  // 👈 ADD THIS
 };

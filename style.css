@@ -1,3 +1,4 @@
+/* ================== RESET ================== */
 * {
   margin: 0;
   padding: 0;
@@ -5,10 +6,21 @@
   font-family: 'Segoe UI', sans-serif;
 }
 
+/* ================== THEME VARIABLES ================== */
+:root {
+  --primary: #E23744;       /* Main red */
+  --primary-dark: #8B1E1E;  /* Dark maroon */
+  --accent: #4E342E;        /* Brown */
+  --bg-light: #FFF5F5;      /* Soft warm bg */
+  --text-dark: #222;
+  --text-muted: #777;
+  --border-light: #EAEAEA;
+}
+
 /* ================== GLOBAL ================== */
 body {
-  background: #ffffff;
-  color: #222;
+  background: var(--bg-light);
+  color: var(--text-dark);
 }
 
 /* ================== TOP SEARCH BAR ================== */
@@ -16,36 +28,54 @@ body {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 12px 40px;
+  padding: 14px 40px;
   background: #ffffff;
+  border-bottom: 1px solid var(--border-light);
 }
 
+/* Search container */
 .location-search {
   display: flex;
   align-items: center;
   gap: 12px;
-  border: 1px solid #ddd;
-  border-radius: 10px;
-  padding: 8px 12px;
+  border: 1px solid var(--border-light);
+  border-radius: 12px;
+  padding: 10px 14px;
   width: 60%;
+  background: #fff;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.04);
 }
 
+/* Location text */
 .location {
-  color: #8B1E1E;
-  font-weight: 500;
+  color: var(--primary-dark);
+  font-weight: 600;
   white-space: nowrap;
 }
 
+/* Search input */
 .search-input {
   border: none;
   outline: none;
   width: 100%;
   font-size: 14px;
+  color: var(--text-dark);
 }
 
+.search-input::placeholder {
+  color: var(--text-muted);
+}
+
+/* Profile / Login */
 .profile {
-  font-weight: 500;
+  font-weight: 600;
   cursor: pointer;
+  color: var(--primary-dark);
+  transition: color 0.2s ease;
+}
+
+.profile:hover {
+  color: var(--primary);
 }
 
 /* ================== LOGO ================== */
@@ -621,22 +651,161 @@ button:hover {
   font-weight: bold;
 }
 
-/* PAYMENT */
+/* ===== PAYMENT PAGE ===== */
+
+.payment-options {
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+/* Each payment card */
+.pay-option {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 16px;
+  border: 1px solid #eee;
+  border-radius: 12px;
+  font-size: 15px;
+  cursor: pointer;
+  background: #fff;
+  transition: all 0.25s ease;
+}
+
+/* Hover effect */
+.pay-option:hover {
+  border-color: #e23744;
+  background: #fff5f6;
+}
+
+/* Radio button styling */
+.pay-option input[type="radio"] {
+  accent-color: #e23744;
+  transform: scale(1.2);
+  cursor: pointer;
+}
+
+/* Optional icon inside payment option */
+.pay-option::before {
+  content: "💳";
+  font-size: 20px;
+}
+
+/* UPI icon override */
+.pay-option.upi::before {
+  content: "📱";
+}
+
+/* COD icon override */
+.pay-option.cod::before {
+  content: "💵";
+}
+
+/* ===== PAYMENT BUTTON (BOTTOM FIXED) ===== */
+
 .payment-bar {
   position: fixed;
   bottom: 0;
+  left: 0;
   width: 100%;
-  padding: 12px;
-  background: white;
+  padding: 14px 20px;
+  background: #fff;
   border-top: 1px solid #eee;
+  z-index: 1000;
 }
 
 .payment-bar button {
   width: 100%;
   background: #e23744;
-  color: white;
-  padding: 14px;
+  color: #fff;
+  padding: 16px;
   border: none;
+  border-radius: 10px;
   font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.payment-bar button:hover {
+  background: #c91d2f;
+}
+/* SUCCESS PAGE */
+.success-page {
+  height: 100vh;
+  background: #fafafa;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* CARD */
+.success-card {
+  background: #fff;
+  padding: 40px;
+  border-radius: 16px;
+  text-align: center;
+  width: 320px;
+  box-shadow: 0 10px 40px rgba(0,0,0,0.08);
+  animation: pop 0.4s ease;
+}
+
+/* ICON */
+.success-icon {
+  width: 80px;
+  height: 80px;
+  background: #2ecc71;
+  color: #fff;
+  font-size: 44px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 16px;
+}
+
+/* TEXT */
+.success-card h2 {
+  margin-bottom: 8px;
+}
+
+.success-card p {
+  color: #666;
+  font-size: 14px;
+  margin-bottom: 20px;
+}
+
+/* BUTTON */
+.success-card button {
+  background: #e23744;
+  color: #fff;
+  border: none;
+  padding: 12px 24px;
   border-radius: 8px;
+  font-size: 15px;
+  cursor: pointer;
+}
+
+/* ANIMATION */
+@keyframes pop {
+  from {
+    transform: scale(0.9);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+/* CONFETTI */
+#confetti-canvas {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  pointer-events: none;
+  z-index: 999;
 }

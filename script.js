@@ -30,7 +30,7 @@ function updateHeader() {
   const authArea = document.getElementById("authArea");
   const user = localStorage.getItem("userId");
   if (authArea && user) {
-    authArea.innerHTML = `👤 ${user}`;
+    authArea.innerHTML = ` ${user}`;
   }
 }
 

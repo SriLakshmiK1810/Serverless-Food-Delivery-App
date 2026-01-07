@@ -5,8 +5,17 @@ function renderCart() {
   container.innerHTML = "";
 
   let total = 0;
+  const keys = Object.keys(cart);
 
-  Object.keys(cart).forEach(key => {
+  if (keys.length === 0) {
+    container.innerHTML = "<p>Your cart is empty</p>";
+    document.getElementById("itemTotal").innerText = 0;
+    document.getElementById("gst").innerText = 0;
+    document.getElementById("grandTotal").innerText = 0;
+    return;
+  }
+
+  keys.forEach(key => {
     const item = cart[key];
     const itemTotal = item.price * item.qty;
     total += itemTotal;
@@ -35,6 +44,7 @@ function renderCart() {
   document.getElementById("grandTotal").innerText = grand;
 }
 
+
 function changeQty(key, delta) {
   cart[key].qty += delta;
 
@@ -47,8 +57,9 @@ function changeQty(key, delta) {
 }
 
 function confirmOrder() {
-  alert("Proceeding to payment...");
-  // next step: payment page
+  window.location.href = "payment.html";
 }
+
+
 
 renderCart();

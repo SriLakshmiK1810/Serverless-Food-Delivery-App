@@ -1,6 +1,8 @@
-const RESTAURANTS_API = "https://t20kw4redi.execute-api.ap-south-1.amazonaws.com/dev/restaurants";
-const ORDER_API       = "https://t20kw4redi.execute-api.ap-south-1.amazonaws.com/dev/order";
-const TRACK_API       = "https://t20kw4redi.execute-api.ap-south-1.amazonaws.com/dev/track";
+const BASE_URL = "https://t20kw4redi.execute-api.ap-south-1.amazonaws.com/dev";
+
+const RESTAURANTS_API = `${BASE_URL}/restaurants`;
+const ORDER_API = `${BASE_URL}/order`;
+const TRACK_API = `${BASE_URL}/track`;
 
 /* ---------- AUTH ---------- */
 function isLoggedIn() {
@@ -832,3 +834,4 @@ window.onload = () => {
   loadCart();
   // 👈 ADD THIS
 };
+

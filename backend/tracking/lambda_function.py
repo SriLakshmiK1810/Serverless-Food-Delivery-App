@@ -1,4 +1,3 @@
-
 import json
 import boto3
 
@@ -11,13 +10,28 @@ table = dynamodb.Table('Orders')
 
 def lambda_handler(event, context):
     try:
-        # SAFELY read query params
-        params = event.get("queryStringParameters") or {}
+        # Handle CORS preflight
+        if event.get("httpMethod") == "OPTIONS":
+            return {
+                "statusCode": 200,
+                "headers": {
+                    "Access-Control-Allow-Origin": "*",
+                    "Access-Control-Allow-Headers": "Content-Type",
+                    "Access-Control-Allow-Methods": "OPTIONS,GET"
+                },
+                "body": ""
+            }
 
+        # Safely read query params
+        params = event.get("queryStringParameters") or {}
         order_id = params.get("orderId")
+
         if not order_id:
             return {
                 "statusCode": 400,
+                "headers": {
+                    "Access-Control-Allow-Origin": "*"
+                },
                 "body": json.dumps({"message": "orderId is required"})
             }
 
@@ -28,12 +42,18 @@ def lambda_handler(event, context):
         if "Item" not in response:
             return {
                 "statusCode": 404,
+                "headers": {
+                    "Access-Control-Allow-Origin": "*"
+                },
                 "body": json.dumps({"message": "Order not found"})
             }
 
         return {
             "statusCode": 200,
-            "headers": {"Content-Type": "application/json"},
+            "headers": {
+                "Content-Type": "application/json",
+                "Access-Control-Allow-Origin": "*"
+            },
             "body": json.dumps({
                 "orderId": order_id,
                 "status": response["Item"].get("status", "Unknown")
@@ -41,9 +61,11 @@ def lambda_handler(event, context):
         }
 
     except Exception as e:
-        # IMPORTANT: show error in logs
         print("ERROR:", str(e))
         return {
             "statusCode": 500,
+            "headers": {
+                "Access-Control-Allow-Origin": "*"
+            },
             "body": json.dumps({"message": "Internal server error"})
         }

@@ -36,6 +36,41 @@ function updateHeader() {
   }
 }
 
+async function connectHomeToBackend() {
+  try {
+    const res = await fetch(RESTAURANTS_API);
+    const restaurants = await res.json();
+
+    // Find the FIRST card grid on the page
+    const grids = document.querySelectorAll(".card-grid");
+    if (!grids.length) return;
+
+    const grid = grids[0]; // use existing UI section
+    grid.innerHTML = "";
+
+    restaurants.forEach(r => {
+      grid.innerHTML += `
+        <div class="card" onclick="openMenu('${r.restaurantId}', '${r.name}')">
+          <img src="https://source.unsplash.com/400x300/?restaurant,food">
+          <div class="card-content">
+            <h3>${r.name}</h3>
+            <p>${r.cuisine}</p>
+            <span class="rating">4.3 ⭐</span>
+          </div>
+        </div>
+      `;
+    });
+  } catch (err) {
+    console.error("Failed to load restaurants", err);
+  }
+}
+function openMenu(id, name) {
+  localStorage.setItem("restaurantId", id);
+  localStorage.setItem("restaurantName", name);
+  window.location.href = "menu.html";
+}
+
+
 /* ---------- TAB SWITCHING ---------- */
 function showDining() {
   document.getElementById("dining-section").style.display = "block";
@@ -834,4 +869,5 @@ window.onload = () => {
   loadCart();
   // 👈 ADD THIS
 };
+
 

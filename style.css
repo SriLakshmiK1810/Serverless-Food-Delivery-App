@@ -1,0 +1,1119 @@
+/* ================== RESET ================== */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Segoe UI', sans-serif;
+}
+
+/* ================== THEME VARIABLES ================== */
+:root {
+  --primary: #E23744;
+  --primary-dark: #8B1E1E;
+  --accent: #4E342E;
+  --orange-1: #ff6a00;
+  --orange-2: #ff8c2b;
+  --text-dark: #222;
+  --text-muted: #777;
+  --border-light: #EAEAEA;
+}
+
+/* ================== GLOBAL ================== */
+body {
+  background: linear-gradient(135deg, var(--orange-1), var(--orange-2));
+  color: var(--text-dark);
+  min-height: 100vh;
+}
+
+/* ================== SEARCH BAR STRIP ================== */
+.search-section {
+  background: linear-gradient(135deg, #ff6a00, #ff8c2b);
+  padding: 18px 0;
+}
+
+/* ================== TOP SEARCH BAR ================== */
+.top-bar {
+  max-width: 1200px;
+  margin: auto;
+  background: #ffffff;
+  border-radius: 16px;
+  padding: 14px 22px;
+
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: 20px;
+
+  box-shadow: 0 12px 30px rgba(0,0,0,0.18);
+}
+.top-bar {
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(255,255,255,0.4);
+}
+/* ===== PROFILE BOX ===== */
+.profile-box {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+  font-weight: 600;
+  color: var(--primary-dark);
+}
+
+.avatar {
+  width: 34px;
+  height: 34px;
+  background: var(--primary);
+  color: #fff;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+}
+
+/* ===== NAME CLOUD ===== */
+.name-cloud {
+  position: fixed;
+  top: 80px;
+  right: 40px;
+  background: #fff;
+  padding: 16px;
+  width: 260px;
+  border-radius: 16px;
+  box-shadow: 0 14px 40px rgba(0,0,0,0.25);
+  z-index: 9999;
+  display: none;
+  animation: popIn 0.25s ease;
+}
+
+.name-cloud p {
+  font-weight: 600;
+  margin-bottom: 10px;
+}
+
+.name-cloud input {
+  width: 100%;
+  padding: 8px 10px;
+  border-radius: 8px;
+  border: 1px solid #ddd;
+  margin-bottom: 10px;
+}
+
+.name-cloud button {
+  width: 100%;
+  background: var(--primary);
+  color: #fff;
+  border: none;
+  padding: 8px;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+/* ===== SPEECH BUBBLE TAIL ===== */
+.cloud-tail {
+  position: absolute;
+  top: -10px;
+  right: 30px;
+  width: 18px;
+  height: 18px;
+  background: #fff;
+  transform: rotate(45deg);
+}
+
+/* ===== ANIMATION ===== */
+@keyframes popIn {
+  from {
+    transform: translateY(-6px) scale(0.95);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0) scale(1);
+    opacity: 1;
+  }
+}
+
+
+/* ================== LOCATION ================== */
+.location-search {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 600;
+  color: var(--primary-dark);
+  white-space: nowrap;
+  cursor: pointer;
+}
+
+/* ================== SEARCH ================== */
+.search-input {
+  width: 100%;
+  padding: 12px 16px;
+  border-radius: 12px;
+  border: 1px solid var(--border-light);
+  font-size: 14px;
+  outline: none;
+}
+
+.search-input:focus {
+  border-color: var(--primary);
+}
+
+.search-input::placeholder {
+  color: var(--text-muted);
+}
+
+/* ================== PROFILE (PROFESSIONAL ICON) ================== */
+.profile {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+}
+
+/* Avatar circle */
+.profile::before {
+  content: "👤"; /* neutral professional icon */
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: #fff;
+  border: 2px solid var(--primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  color: var(--primary);
+  box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+}
+
+/* Hide email / text */
+.profile span {
+  display: none;
+}
+
+/* Hover effect */
+.profile:hover::before {
+  background: var(--primary);
+  color: #fff;
+}
+
+
+/* ================== LOGO (ORANGE GRADIENT AREA) ================== */
+/* ================== LOGO HERO SECTION ================== */
+/* ================== HERO / LOGO ================== */
+.logo-header {
+  background: radial-gradient(
+    circle at center,
+    #ff8c2b 0%,
+    #ff6a00 45%,
+    #e65100 100%
+  );
+  padding: 70px 0 90px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Black plate behind logo */
+.logo-plate {
+  background: #0f0f0f;
+  padding: 38px;
+  border-radius: 26px; /* use 50% if you want circle */
+  box-shadow:
+    0 25px 60px rgba(0,0,0,0.45),
+    inset 0 0 0 1px rgba(255,255,255,0.06);
+}
+
+/* Logo itself */
+.app-logo {
+  height: 300px;
+  object-fit: contain;
+  pointer-events: none;
+  filter: drop-shadow(0 8px 25px rgba(255,140,43,0.55));
+}
+.logo-header::after {
+  content: "";
+  position: absolute;
+  width: 360px;
+  height: 360px;
+  background: radial-gradient(circle, rgba(255,255,255,0.15), transparent 70%);
+  border-radius: 50%;
+  z-index: 0;
+}
+
+
+
+/* ================== BLACK BACK PLATE FOR CARDS ================== */
+.card {
+  background: #000;
+  padding: 4px;
+  border-radius: 14px;
+}
+
+.card > * {
+  background: #fff;
+  border-radius: 12px;
+}
+
+/* ================== BLACK CIRCLE FOR CIRCULAR ITEMS ================== */
+.circle-card {
+  background: #000;
+  padding: 6px;
+  border-radius: 50%;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.circle-card img {
+  background: #fff;
+  border-radius: 50%;
+}
+
+/* ================== HERO / CONTENT SECTIONS ================== */
+.hero-section,
+.container,
+.restaurants-list,
+.collections,
+.explore,
+.footer {
+  background: #ffffff;
+  border-radius: 18px;
+  margin: 30px auto;
+  max-width: 1200px;
+}
+
+/* ================== SMOOTH LOOK ================== */
+.tabs {
+  max-width: 1100px;
+  margin: 18px auto 0;
+  display: flex;
+  gap: 26px;
+  padding-left: 10px;
+}
+
+.tab {
+  font-weight: 600;
+  color: rgba(255,255,255,0.85);
+  padding-bottom: 10px;
+  cursor: pointer;
+  position: relative;
+}
+
+.tab.active {
+  color: #fff;
+}
+
+.tab.active::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 32px;
+  height: 3px;
+  background: #fff;
+  border-radius: 2px;
+}
+
+/* ================== COLLECTIONS (FIXED) ================== */
+
+.collections {
+  padding: 40px;
+}
+
+.collections-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.collections-desc {
+  color: #666;
+  margin: 10px 0 20px;
+}
+
+.view-all {
+  color: #e23744;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.collections-grid {
+  display: flex;
+  gap: 20px;
+  overflow-x: auto;
+  padding-bottom: 10px;
+}
+
+/* 🔥 KEY FIX */
+.collection-card {
+  min-width: 260px;
+  height: 320px;
+  position: relative;
+  border-radius: 14px;
+  overflow: hidden;
+  background: #000;
+}
+
+.collection-card img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* Overlay */
+.collection-card::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to top,
+    rgba(0,0,0,0.6),
+    rgba(0,0,0,0.15)
+  );
+}
+
+.collection-text {
+  position: absolute;
+  bottom: 14px;
+  left: 14px;
+  color: #fff;
+  font-size: 16px;
+  font-weight: 600;
+  z-index: 2;
+}
+
+.collection-text span {
+  font-size: 13px;
+  font-weight: normal;
+}
+
+/* ================== OFFER BANNER ================== */
+.offer-banner {
+  margin: 40px;
+  background: url("https://images.unsplash.com/photo-1504674900247-0877df9cc836")
+    center/cover no-repeat;
+  border-radius: 16px;
+  padding: 40px;
+  color: white;
+}
+
+.offer-banner button {
+  margin-top: 12px;
+  background: #e23744;
+}
+
+/* ================== FILTERS ================== */
+.filters {
+  display: flex;
+  gap: 12px;
+  padding: 20px 40px;
+  flex-wrap: wrap;
+}
+
+.filters span {
+  border: 1px solid #ddd;
+  padding: 6px 14px;
+  border-radius: 20px;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+/* ================== RESTAURANTS LIST ================== */
+.restaurants-list {
+  padding: 20px 40px;
+}
+
+.rating {
+  background: #24963f;
+  color: white;
+  padding: 4px 6px;
+  border-radius: 4px;
+  font-size: 12px;
+}
+
+/* ================== CONTAINER ================== */
+.container {
+  padding: 30px 40px;
+}
+
+.section-title {
+
+  font-size: 22px;
+  margin-bottom: 20px;
+  color: #4E342E;
+}
+.section-white {
+  background: #ffffff;
+  border-radius: 28px 28px 0 0;
+  margin-top: -40px;
+  padding: 50px 0;
+}
+
+
+/* ================== BUTTONS ================== */
+button {
+  background: #8B1E1E;
+  color: white;
+  border: none;
+  padding: 10px 14px;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+button:hover {
+  background: #9d2626;
+}
+
+.secondary {
+  background: #4E342E;
+}
+
+/* ================== CARDS ================== */
+.card-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 24px;
+}
+
+.card {
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+  overflow: hidden;
+  transition: transform 0.2s ease;
+}
+
+.card:hover {
+  transform: translateY(-4px);
+}
+
+.card img {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+  display: block;
+}
+
+.card-content {
+  padding: 15px;
+}
+
+/* ================== MODAL ================== */
+.modal {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.5);
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.modal-content {
+  background: white;
+  padding: 25px;
+  width: 300px;
+  border-radius: 10px;
+  text-align: center;
+}
+
+.modal-content input {
+  width: 100%;
+  padding: 10px;
+  margin: 12px 0;
+}
+
+/* ================== STATUS ================== */
+.status {
+  background: white;
+  padding: 14px;
+  margin-bottom: 10px;
+  border-left: 6px solid #8B1E1E;
+}
+/* ================== EXPLORE SECTION ================== */
+.explore {
+  padding: 40px;
+  background: #ffffff;
+}
+
+.explore h2 {
+  font-size: 22px;
+  margin-bottom: 20px;
+}
+
+.explore-item {
+  border: 1px solid #e0e0e0;
+  padding: 14px 18px;
+  border-radius: 8px;
+  margin-bottom: 12px;
+  display: flex;
+  justify-content: space-between;
+  cursor: pointer;
+  background: #fff;
+}
+
+/* ================== FOOTER ================== */
+.footer {
+  background: #f8f8f8;
+  padding: 40px;
+  margin-top: 40px;
+}
+
+.footer-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.footer-logo {
+  font-size: 26px;
+  font-weight: bold;
+}
+
+.footer-select select {
+  padding: 6px 10px;
+  margin-left: 10px;
+}
+
+.footer-links {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 30px;
+  margin-top: 30px;
+}
+
+.footer-links h4 {
+  margin-bottom: 10px;
+}
+
+.footer-links p {
+  font-size: 14px;
+  color: #555;
+  margin-bottom: 6px;
+  cursor: pointer;
+}
+
+.social-icons {
+  font-size: 20px;
+}
+
+.footer-bottom {
+  margin-top: 30px;
+  font-size: 13px;
+  color: #777;
+  border-top: 1px solid #ddd;
+  padding-top: 20px;
+}
+/* ================= DELIVERY UI ================= */
+.circle-grid {
+  display: flex;
+  gap: 30px;
+  margin-top: 20px;
+  overflow-x: auto;
+}
+
+.circle-card, .brand-card {
+  text-align: center;
+  cursor: pointer;
+}
+
+.circle-card img {
+  width: 110px;
+  height: 110px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.brand-card img {
+  width: 110px;
+  height: 110px;
+  border-radius: 50%;
+  object-fit: contain;
+  background: #fff;
+  padding: 10px;
+}
+
+.circle-card p,
+.brand-card p {
+  margin-top: 8px;
+  font-size: 14px;
+}
+/* ================= ZOMATO RESTAURANT MENU ================= */
+/* ================= RESTAURANT HEADER ================= */
+
+.restaurant-header {
+  padding: 30px 40px;
+  border-bottom: 1px solid #eee;
+}
+
+.res-meta {
+  color: #777;
+  font-size: 14px;
+}
+
+/* ================= RESTAURANT BODY ================= */
+
+.restaurant-body {
+  display: flex;
+  padding: 20px 40px;
+  gap: 40px;
+}
+
+/* ================= MENU CATEGORIES ================= */
+
+.menu-categories {
+  width: 220px;
+  position: sticky;
+  top: 100px;
+  height: fit-content;
+}
+
+.menu-categories p {
+  padding: 12px 0;
+  cursor: pointer;
+  color: #555;
+}
+
+.menu-categories .active {
+  color: #e23744;
+  font-weight: 600;
+  border-left: 3px solid #e23744;
+  padding-left: 10px;
+}
+
+/* ================= MENU ITEMS ================= */
+
+.menu-items {
+  flex: 1;
+  max-width: 700px;
+  display: flex;
+  flex-direction: column;
+}
+
+/* ===== FOOD ITEM LAYOUT ===== */
+
+.food-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px 0;
+  border-bottom: 1px solid #eee;
+}
+
+.food-info h4 {
+  margin: 0 0 6px;
+}
+
+.food-info p {
+  font-size: 13px;
+  color: #666;
+}
+
+/* ===== RIGHT SIDE (ADD / QTY) ===== */
+
+.food-right {
+  min-width: 110px;
+  display: flex;
+  justify-content: flex-end;
+}
+
+/* ADD BUTTON */
+
+.add-btn {
+  border: 1px solid #e03546;
+  color: #e03546;
+  background: #fff;
+  padding: 6px 16px;
+  border-radius: 6px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+/* ===== QTY BOX (− 2 +) ===== */
+.qty-box {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 90px;
+  height: 32px;
+  border: 1px solid #e23744;
+  border-radius: 6px;
+  overflow: hidden;
+}
+
+.qty-box button {
+  width: 28px;
+  height: 100%;
+  background: #e23744;
+  color: #fff;
+  border: none;
+  font-size: 18px;
+  cursor: pointer;
+}
+
+.qty-box span {
+  flex: 1;
+  text-align: center;
+  font-weight: 600;
+}
+
+
+/* ================= CLICK FIXES ================= */
+
+.logo-header {
+  pointer-events: none;
+}
+
+.tabs {
+  position: relative;
+  z-index: 10;
+}
+/* CART BOTTOM BAR (ZOMATO STYLE) */
+.cart-bar {
+  position: fixed;
+  bottom: 16px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #e23744;
+  color: #fff;
+  padding: 14px 20px;
+  border-radius: 12px;
+  display: flex;
+  gap: 20px;
+  align-items: center;
+  z-index: 999;
+}
+.cart-bar button {
+  background: #fff;
+  color: #e23744;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 6px;
+  font-weight: 600;
+}
+/* CART PAGE */
+.cart-header {
+  padding: 20px;
+  font-size: 20px;
+  font-weight: 600;
+  border-bottom: 1px solid #eee;
+}
+
+.cart-container {
+  padding: 10px 20px;
+}
+
+.cart-item {
+  display: flex;
+  justify-content: space-between;
+  padding: 14px 0;
+  border-bottom: 1px solid #eee;
+}
+
+.cart-info h4 {
+  font-size: 15px;
+  margin-bottom: 4px;
+}
+
+.cart-info p {
+  font-size: 13px;
+  color: #666;
+}
+
+.cart-qty {
+  display: flex;
+  align-items: center;
+  border: 1px solid #e23744;
+  border-radius: 6px;
+  overflow: hidden;
+}
+
+.cart-qty button {
+  background: #e23744;
+  color: white;
+  border: none;
+  width: 28px;
+  height: 28px;
+  font-size: 16px;
+}
+
+.cart-qty span {
+  padding: 0 12px;
+  font-weight: 600;
+}
+
+/* BILL */
+.bill-box {
+  padding: 20px;
+  background: #fafafa;
+  margin: 10px;
+  border-radius: 10px;
+}
+
+.bill-row {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+
+.bill-row.total {
+  font-size: 18px;
+  font-weight: bold;
+}
+
+/* ===== PAYMENT PAGE ===== */
+
+.payment-options {
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+/* Each payment card */
+.pay-option {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 16px;
+  border: 1px solid #eee;
+  border-radius: 12px;
+  font-size: 15px;
+  cursor: pointer;
+  background: #fff;
+  transition: all 0.25s ease;
+}
+
+/* Hover effect */
+.pay-option:hover {
+  border-color: #e23744;
+  background: #fff5f6;
+}
+
+/* Radio button styling */
+.pay-option input[type="radio"] {
+  accent-color: #e23744;
+  transform: scale(1.2);
+  cursor: pointer;
+}
+
+/* Optional icon inside payment option */
+.pay-option::before {
+  content: "💳";
+  font-size: 20px;
+}
+
+/* UPI icon override */
+.pay-option.upi::before {
+  content: "📱";
+}
+
+/* COD icon override */
+.pay-option.cod::before {
+  content: "💵";
+}
+
+/* ===== PAYMENT BUTTON (BOTTOM FIXED) ===== */
+
+.payment-bar {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  padding: 14px 20px;
+  background: #fff;
+  border-top: 1px solid #eee;
+  z-index: 1000;
+}
+
+.payment-bar button {
+  width: 100%;
+  background: #e23744;
+  color: #fff;
+  padding: 16px;
+  border: none;
+  border-radius: 10px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.payment-bar button:hover {
+  background: #c91d2f;
+}
+/* SUCCESS PAGE */
+.success-page {
+  height: 100vh;
+  background: #fafafa;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* CARD */
+.success-card {
+  background: #fff;
+  padding: 40px;
+  border-radius: 16px;
+  text-align: center;
+  width: 320px;
+  box-shadow: 0 10px 40px rgba(0,0,0,0.08);
+  animation: pop 0.4s ease;
+}
+
+/* ICON */
+.success-icon {
+  width: 80px;
+  height: 80px;
+  background: #2ecc71;
+  color: #fff;
+  font-size: 44px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 16px;
+}
+
+/* TEXT */
+.success-card h2 {
+  margin-bottom: 8px;
+}
+
+.success-card p {
+  color: #666;
+  font-size: 14px;
+  margin-bottom: 20px;
+}
+
+/* BUTTON */
+.success-card button {
+  background: #e23744;
+  color: #fff;
+  border: none;
+  padding: 12px 24px;
+  border-radius: 8px;
+  font-size: 15px;
+  cursor: pointer;
+}
+
+/* ANIMATION */
+@keyframes pop {
+  from {
+    transform: scale(0.9);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+/* CONFETTI */
+#confetti-canvas {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  pointer-events: none;
+  z-index: 999;
+}
+
+.auth-body {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #ff6a00, #ff8c2b);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+  position: relative;
+}
+.auth-card {
+  background: white;
+  padding: 40px 36px;
+  border-radius: 18px;
+  width: 360px;
+  text-align: center;
+  z-index: 2;
+  box-shadow: 0 20px 50px rgba(0,0,0,0.25);
+}
+
+.auth-card h1 span {
+  color: #e23744;
+}
+
+.auth-card input {
+  width: 100%;
+  padding: 12px;
+  margin-bottom: 14px;
+  border-radius: 10px;
+  border: 1px solid #ddd;
+}
+
+.auth-card button {
+  width: 100%;
+  padding: 12px;
+  border-radius: 10px;
+  border: none;
+  background: #e23744;
+  color: white;
+  font-weight: 600;
+}
+
+.auth-card button.secondary {
+  background: #fff;
+  color: #e23744;
+  border: 1px solid #e23744;
+}
+
+.divider {
+  margin: 14px 0;
+  color: #aaa;
+}
+.auth-card {
+  background: white;
+  padding: 40px 36px;
+  border-radius: 18px;
+  width: 360px;
+  text-align: center;
+  z-index: 2;
+  box-shadow: 0 20px 50px rgba(0,0,0,0.25);
+}
+
+.auth-card h1 span {
+  color: #e23744;
+}
+
+.auth-card input {
+  width: 100%;
+  padding: 12px;
+  margin-bottom: 14px;
+  border-radius: 10px;
+  border: 1px solid #ddd;
+}
+
+.auth-card button {
+  width: 100%;
+  padding: 12px;
+  border-radius: 10px;
+  border: none;
+  background: #e23744;
+  color: white;
+  font-weight: 600;
+}
+
+.auth-card button.secondary {
+  background: #fff;
+  color: #e23744;
+  border: 1px solid #e23744;
+}
+
+.divider {
+  margin: 14px 0;
+  color: #aaa;
+}

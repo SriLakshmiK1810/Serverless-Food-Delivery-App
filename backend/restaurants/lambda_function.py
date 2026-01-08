@@ -1,3 +1,12 @@
+import json
+import boto3
+
+# Create DynamoDB resource
+dynamodb = boto3.resource('dynamodb')
+
+# Connect to Restaurants table
+table = dynamodb.Table('Restaurants')
+
 def lambda_handler(event, context):
     try:
         response = table.scan()
@@ -15,36 +24,9 @@ def lambda_handler(event, context):
     except Exception as e:
         return {
             "statusCode": 500,
-            "body": json.dumps({"error": str(e)})
-        }
-
-import json
-import boto3
-
-# Create DynamoDB resource
-dynamodb = boto3.resource('dynamodb')
-
-# Connect to Restaurants table
-table = dynamodb.Table('Restaurants')
-
-def lambda_handler(event, context):
-    try:
-        # Scan DynamoDB table
-        response = table.scan()
-        restaurants = response.get('Items', [])
-
-        return {
-            "statusCode": 200,
             "headers": {
-                "Content-Type": "application/json"
+                "Content-Type": "application/json",
+                "Access-Control-Allow-Origin": "*"
             },
-            "body": json.dumps(restaurants)
-        }
-
-    except Exception as e:
-        return {
-            "statusCode": 500,
-            "body": json.dumps({
-                "error": str(e)
-            })
+            "body": json.dumps({"error": str(e)})
         }

@@ -7,15 +7,14 @@ table = dynamodb.Table('Orders')
 
 def lambda_handler(event, context):
     try:
-        # Handle body safely
+        # Parse request body safely
         if "body" in event:
             if isinstance(event["body"], str):
                 body = json.loads(event["body"])
             else:
                 body = event["body"]
         else:
-            # Fallback (for test invoke edge cases)
-            body = event
+            body = event  # fallback for test invoke
 
         # Generate unique order ID
         order_id = str(uuid.uuid4())
@@ -29,13 +28,16 @@ def lambda_handler(event, context):
             "status": "Order Placed"
         }
 
-        # Store order in DynamoDB
+        # Save to DynamoDB
         table.put_item(Item=order_item)
 
         return {
             "statusCode": 200,
             "headers": {
-                "Content-Type": "application/json"
+                "Content-Type": "application/json",
+                "Access-Control-Allow-Origin": "*",
+                "Access-Control-Allow-Headers": "Content-Type",
+                "Access-Control-Allow-Methods": "OPTIONS,POST"
             },
             "body": json.dumps({
                 "message": "Order placed successfully",
@@ -46,6 +48,10 @@ def lambda_handler(event, context):
     except Exception as e:
         return {
             "statusCode": 500,
+            "headers": {
+                "Content-Type": "application/json",
+                "Access-Control-Allow-Origin": "*"
+            },
             "body": json.dumps({
                 "error": str(e)
             })

@@ -1,10 +1,8 @@
 import json
 import boto3
 
-# Create DynamoDB resource
+# DynamoDB resource
 dynamodb = boto3.resource('dynamodb')
-
-# Connect to Restaurants table
 table = dynamodb.Table('Restaurants')
 
 def lambda_handler(event, context):
@@ -25,7 +23,6 @@ def lambda_handler(event, context):
         return {
             "statusCode": 500,
             "headers": {
-                "Content-Type": "application/json",
                 "Access-Control-Allow-Origin": "*"
             },
             "body": json.dumps({"error": str(e)})
